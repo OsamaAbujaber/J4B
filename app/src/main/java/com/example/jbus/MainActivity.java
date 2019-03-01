@@ -8,14 +8,19 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
 
-
-
+    FirebaseDatabase database;
+    DatabaseReference myRef;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -37,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId())
         {
            case R.id.s1 :
+                database = FirebaseDatabase.getInstance();
+                myRef = database.getReference("hi");
+               myRef.setValue("1122");
                break;
 
             case R.id.employee:
