@@ -8,20 +8,19 @@
     tools:context=".employee1login">
 
     <EditText
-        android:id="@+id/textView3"
+        android:id="@+id/t_id"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="330dp"
         android:layout_centerHorizontal="true"
         android:hint="Enter ID " />
     <EditText
-        android:id="@+id/textView"
+        android:id="@+id/t_pwd"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="380dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/edittext"
-        android:hint="    Enter Password " />
+        android:hint="Enter Password " />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -32,7 +31,7 @@
         app:srcCompat="@drawable/just1logo" />
 
     <Button
-        android:id="@+id/s1"
+        android:id="@+id/login"
 
         android:layout_width="250dp"
         android:layout_height="50dp"
@@ -59,4 +58,12 @@
         android:inputType="textMultiLine"
         android:layout_marginTop="550dp"
         />
+
+    <EditText
+        android:id="@+id/vi"
+        android:layout_width="400dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="550dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
 </RelativeLayout>

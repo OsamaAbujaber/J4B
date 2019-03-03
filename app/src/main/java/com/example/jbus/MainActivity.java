@@ -18,9 +18,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     FirebaseDatabase database;
     DatabaseReference myRef;
+
+    DatabaseReference databaseEMP;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
+        databaseEMP=FirebaseDatabase.getInstance().getReference("EMP");
+
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
