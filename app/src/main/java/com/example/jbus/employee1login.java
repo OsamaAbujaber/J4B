@@ -25,26 +25,33 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
     private List<EMP> emps =new ArrayList<>();
      List<String> info=new ArrayList<String>();
 
+
     TextView t,T_id,T_pwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //To view it as full screen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_employee1login);
+
+        //Define FireBase
         mDatabase= FirebaseDatabase.getInstance();
         mReferranceEMP=mDatabase.getReference("EMP");
 
-
+        // Define ID's
         t= (TextView) findViewById(R.id.vi);
         T_id= (TextView) findViewById(R.id.t_id);
         T_pwd= (TextView) findViewById(R.id.t_pwd);
-
-
         Button Login= (Button) findViewById(R.id.login);
+
+        //Get All Users ID and Password From FireBase
         readEMP();
+
+        // Listener for login button
         Login.setOnClickListener(this);
 
 
@@ -54,10 +61,11 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
     public void readEMP(){
 
 
+       for(int i=1;i<4;i++) {
 
-
-       mReferranceEMP.child("Driver1").addValueEventListener(new ValueEventListener() {
+       mReferranceEMP.child("EMP"+i).addValueEventListener(new ValueEventListener() {
            @Override
+
            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
               String x=dataSnapshot.getValue()+"";
               // sub the first string which contan {id,pwd}
@@ -86,6 +94,7 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
            }
        });
 
+       }//end of for loop
 
 
 
@@ -97,6 +106,9 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+
+
+
 
          for (int i=0;i<info.size();i+=2){
         if(T_id.getText().toString().equals(info.get(i)))
