@@ -43,12 +43,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+        Intent i =null;
         switch (v.getId())
         {
            case R.id.s1 :
-                database = FirebaseDatabase.getInstance();
-                myRef = database.getReference("hi");
-               myRef.setValue("1122");
+
+              i= new Intent(MainActivity.this,MapsActivity.class);
+              i.putExtra("checkPriv","student");
+              startActivity(i);
+
                break;
 
             case R.id.employee:
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+        finish();
 
     }
 }

@@ -2,6 +2,7 @@ package com.example.jbus;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,6 +23,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        if(getIntent().getExtras()!=null)
+        {
+
+             Toast.makeText(this, "disable", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(this, "enable", Toast.LENGTH_SHORT).show();
+        }
+        
     }
 
 

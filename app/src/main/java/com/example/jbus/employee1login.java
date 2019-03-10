@@ -1,8 +1,12 @@
 package com.example.jbus;
 
+import android.content.Intent;
+import android.support.annotation.LongDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jbus.model.Driver;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,9 +27,9 @@ import java.util.List;
 
 public class employee1login extends AppCompatActivity implements View.OnClickListener {
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mReferranceEMP;
-    private List<EMP> emps =new ArrayList<>();
-     List<String> info=new ArrayList<String>();
+    private DatabaseReference mReferranceDrivers;
+    private List<Driver> driversArray ;
+  
 
 
     TextView t,T_id,T_pwd;
@@ -40,16 +46,17 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
 
         //Define FireBase
         mDatabase= FirebaseDatabase.getInstance();
-        mReferranceEMP=mDatabase.getReference("EMP");
-
+        mReferranceDrivers=mDatabase.getReference("driver");
+        driversArray = new ArrayList<>();
+        readDrivers();
         // Define ID's
-        t= (TextView) findViewById(R.id.vi);
-        T_id= (TextView) findViewById(R.id.t_id);
-        T_pwd= (TextView) findViewById(R.id.t_pwd);
-        Button Login= (Button) findViewById(R.id.login);
+        t=  findViewById(R.id.vi);
+        T_id=  findViewById(R.id.t_id);
+        T_pwd=  findViewById(R.id.t_pwd);
+        Button Login= findViewById(R.id.login);
 
         //Get All Users ID and Password From FireBase
-        readEMP();
+
 
         // Listener for login button
         Login.setOnClickListener(this);
@@ -58,43 +65,46 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    public void readEMP(){
+    public void readDrivers()
+    {
 
 
-       for(int i=1;i<4;i++) {
+        mReferranceDrivers.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-       mReferranceEMP.child("EMP"+i).addValueEventListener(new ValueEventListener() {
-           @Override
-
-           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              String x=dataSnapshot.getValue()+"";
-              // sub the first string which contan {id,pwd}
-               int ind1=x.indexOf(",");
-              //sub the id alone
-              String id=x.substring(0,ind1);
-              int ind2=id.indexOf("=");
-              id=id.substring(ind2+1,id.length());
-              id.trim();
-
-               //sub the pwd alone
-              String pwd=x.substring(ind1+1,x.length());
-              int ind3=pwd.indexOf("=");
-              pwd=pwd.substring(ind3+1,pwd.length());
-              pwd=pwd.replace("}","");
-              //add values to the list
-              info.add(id);
-              info.add(pwd);
+                Driver driver = dataSnapshot.getValue(Driver.class);
+                driversArray.add(driver);
 
 
-           }
 
-           @Override
-           public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
 
-           }
-       });
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-       }//end of for loop
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
 
 
 
@@ -108,22 +118,54 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
 
 
+        
+
+        
+        String id_d = T_id.getText().toString().trim();
+        String pass_d=T_pwd.getText().toString().trim();
 
 
-         for (int i=0;i<info.size();i+=2){
-        if(T_id.getText().toString().equals(info.get(i)))
+        if(id_d.isEmpty() || pass_d.isEmpty()) 
         {
-            Toast.makeText(this, "id correct", Toast.LENGTH_LONG).show();
 
-            if (T_pwd.getText().toString().equals(info.get(i+1)))
+            Toast.makeText(employee1login.this, "fill all failds", Toast.LENGTH_SHORT).show();
+
+        }
+
+        
+        else
+        {
+
+            boolean flag =false;
+
+            for (Driver d1 : driversArray)
             {
-                Toast.makeText(this, "PWD correct", Toast.LENGTH_LONG).show();
+                if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
+                {
+                    flag = true;
+                    break;
+                }
+
             }
 
 
+            if(flag)
+            {
+
+                 startActivity(new Intent(employee1login.this,MapsActivity.class));
+            }
+            else
+            {
+                Toast.makeText(this, "wrong id or pass", Toast.LENGTH_SHORT).show();
+            }
+
         }
-    }
+
+
+
+
 
     }
 
-}
+    }
+
