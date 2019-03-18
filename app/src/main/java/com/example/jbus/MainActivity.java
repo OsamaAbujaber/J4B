@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            case R.id.s1 :
 
               i= new Intent(MainActivity.this,MapsActivity.class);
-              i.putExtra("checkPriv","student");
+             // i.putExtra("checkPriv","student");
               startActivity(i);
 
                break;
