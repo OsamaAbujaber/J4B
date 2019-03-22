@@ -128,7 +128,7 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
         if(id_d.isEmpty() || pass_d.isEmpty()) 
         {
 
-            Toast.makeText(employee1login.this, "fill all failds", Toast.LENGTH_SHORT).show();
+            Toast.makeText(employee1login.this, "Fill All Fields", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -152,7 +152,7 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
             if(flag)
             {
 
-                 startActivity(new Intent(employee1login.this,MapsActivity.class));
+                 startActivity(new Intent(employee1login.this,DriverSP.class));
             }
             else
             {

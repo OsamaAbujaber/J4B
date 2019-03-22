@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".DriverSP">
+
+    <Switch
+        android:id="@+id/swt"
+        android:layout_width="147dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="150dp"
+        android:text="     حالة العمل "
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="133dp" />
+
+    <EditText
+        android:id="@+id/feedback"
+        android:hint="                                      ارسال الملاحظات      "
+        android:textColorHint="@color/colorPrimaryDark"
+        android:layout_width="408dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="450dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        />
+
+</RelativeLayout>
