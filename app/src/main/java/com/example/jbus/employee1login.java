@@ -29,8 +29,8 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
     private List<Driver> driversArray ;
-  
-
+    Intent i;
+double id;
 
     TextView t,T_id,T_pwd;
 
@@ -56,28 +56,18 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
         Button Login= findViewById(R.id.login);
 
         //Get All Users ID and Password From FireBase
-
-
         // Listener for login button
         Login.setOnClickListener(this);
-
-
-
     }
 
     public void readDrivers()
     {
-
-
         mReferranceDrivers.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 Driver driver = dataSnapshot.getValue(Driver.class);
                 driversArray.add(driver);
-
-
-
             }
 
             @Override
@@ -100,71 +90,44 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-
-
-
-
-
-
-
-
-
-
-
     }
 
 
     @Override
     public void onClick(View v) {
 
-
-        
-
-        
         String id_d = T_id.getText().toString().trim();
         String pass_d=T_pwd.getText().toString().trim();
 
 
         if(id_d.isEmpty() || pass_d.isEmpty()) 
         {
-
             Toast.makeText(employee1login.this, "Fill All Fields", Toast.LENGTH_SHORT).show();
-
         }
-
-        
         else
         {
-
             boolean flag =false;
-
             for (Driver d1 : driversArray)
             {
                 if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
                 {
                     flag = true;
+                    id=Double.parseDouble(id_d);
                     break;
                 }
 
             }
-
-
             if(flag)
             {
-
-                 startActivity(new Intent(employee1login.this,DriverSP.class));
+                i= new Intent(employee1login.this,DriverSP.class);
+                 i.putExtra("ID",id);
+                startActivity(i);
             }
             else
             {
                 Toast.makeText(this, "wrong id or pass", Toast.LENGTH_SHORT).show();
             }
-
         }
-
-
-
-
-
     }
 
     }

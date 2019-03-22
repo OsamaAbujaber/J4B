@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     DatabaseReference databaseEMP;
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
         databaseEMP=FirebaseDatabase.getInstance().getReference("EMP");

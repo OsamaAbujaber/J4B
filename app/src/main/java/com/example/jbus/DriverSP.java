@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +21,20 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DriverSP extends AppCompatActivity  {
+import com.example.jbus.model.Driver;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
+public class DriverSP extends AppCompatActivity  {
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReferranceDrivers;
+    private List<Driver> driversArray ;
     TextView feed;
     Switch swit;
     LocationManager locationManager;
@@ -39,6 +52,16 @@ public class DriverSP extends AppCompatActivity  {
                 public void onReceive(Context context, Intent intent) {
                             //feed.append();
                     Toast.makeText(context,"\n" +intent.getExtras().get("loc")+"\n" , Toast.LENGTH_SHORT).show();
+
+                    for (Driver d1 : driversArray)
+                    {
+                        if(d1.getId().equals(intent.getExtras().get("ID")))
+                        {
+                         //  mDatabase.getReference("driver").push().child("hh").
+                            break;
+                        }
+
+                    }
                 }
             };
 
@@ -64,12 +87,48 @@ public class DriverSP extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_sp);
 
+        //Define FireBase
+        mDatabase= FirebaseDatabase.getInstance();
+        mReferranceDrivers=mDatabase.getReference("driver");
+        driversArray = new ArrayList<>();
 
+        readDrivers();
         swit = findViewById(R.id.swt);
         feed=findViewById(R.id.feedback);
         
         if(!runtime_per())
             enable_buttons();
+    }
+    public void readDrivers()
+    {
+        mReferranceDrivers.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                Driver driver = dataSnapshot.getValue(Driver.class);
+                driversArray.add(driver);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void enable_buttons() {
