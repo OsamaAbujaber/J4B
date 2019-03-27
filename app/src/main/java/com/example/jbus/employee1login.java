@@ -30,7 +30,7 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
     private DatabaseReference mReferranceDrivers;
     private List<Driver> driversArray ;
     Intent i;
-double id;
+String id;
 
     TextView t,T_id,T_pwd;
 
@@ -112,7 +112,7 @@ double id;
                 if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
                 {
                     flag = true;
-                    id=Double.parseDouble(id_d);
+                    id=d1.getId();
                     break;
                 }
 

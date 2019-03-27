@@ -34,13 +34,12 @@ import java.util.List;
 public class DriverSP extends AppCompatActivity  {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
-    private List<Driver> driversArray ;
+
     TextView feed;
     Switch swit;
     LocationManager locationManager;
     LocationListener locationListener;
     BroadcastReceiver broadcastReceiver;
-
 
     @Override
     protected void onResume() {
@@ -50,18 +49,14 @@ public class DriverSP extends AppCompatActivity  {
             broadcastReceiver= new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                            //feed.append();
-                    Toast.makeText(context,"\n" +intent.getExtras().get("loc")+"\n" , Toast.LENGTH_SHORT).show();
 
-                    for (Driver d1 : driversArray)
-                    {
-                        if(d1.getId().equals(intent.getExtras().get("ID")))
-                        {
-                         //  mDatabase.getReference("driver").push().child("hh").
-                            break;
-                        }
+                  //  Toast.makeText(context,"\n" +intent.getExtras().get("Lag")+"\n"+intent.getExtras().get("Lan") ,Toast.LENGTH_SHORT).show();
 
-                    }
+    String stringLag= String.valueOf(intent.getExtras().get("Lag"));
+    String stringLan= String.valueOf(intent.getExtras().get("Lan"));
+    mReferranceDrivers.child("driver1").child("lag").setValue(stringLag);
+    mReferranceDrivers.child("driver1").child("lan").setValue(stringLan);
+
                 }
             };
 
@@ -90,46 +85,14 @@ public class DriverSP extends AppCompatActivity  {
         //Define FireBase
         mDatabase= FirebaseDatabase.getInstance();
         mReferranceDrivers=mDatabase.getReference("driver");
-        driversArray = new ArrayList<>();
 
-        readDrivers();
         swit = findViewById(R.id.swt);
         feed=findViewById(R.id.feedback);
         
         if(!runtime_per())
             enable_buttons();
     }
-    public void readDrivers()
-    {
-        mReferranceDrivers.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                Driver driver = dataSnapshot.getValue(Driver.class);
-                driversArray.add(driver);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     private void enable_buttons() {
 

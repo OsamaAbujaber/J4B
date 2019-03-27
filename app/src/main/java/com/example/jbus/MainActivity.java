@@ -56,13 +56,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                break;
 
             case R.id.employee:
-               startActivity(new Intent(MainActivity.this,employee1login.class));
-               break;
+                i= new Intent(MainActivity.this,employee1login.class);
+                startActivity(i);
+                break;
 
 
         }
 
-        finish();
+
 
     }
 }

@@ -31,7 +31,8 @@ public class GPS_Service extends Service  {
             @Override
             public void onLocationChanged(Location location) {
                 Intent i =new Intent("location_update");
-                i.putExtra("loc",location.getLongitude()+" "+location.getLatitude());
+                i.putExtra("Lag",location.getLongitude());
+                i.putExtra("Lan",location.getLatitude());
                 sendBroadcast(i);
 
             }
@@ -55,7 +56,7 @@ public class GPS_Service extends Service  {
         };
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,2000,0,locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,600,0,locationListener);
 
     }
 

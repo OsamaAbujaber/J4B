@@ -6,8 +6,8 @@ public class Driver
 
     private String id;
     private String pass;
-    private double lag;
-    private double lan;
+    private String lag;
+    private String lan;
 
 
 
@@ -15,7 +15,7 @@ public class Driver
 
     }
 
-    public Driver(String id, String pass, double lag, double lan) {
+    public Driver(String id, String pass, String lag, String lan) {
         this.id = id;
         this.pass = pass;
         this.lag = lag;
@@ -38,19 +38,19 @@ public class Driver
         this.pass = pass;
     }
 
-    public void setLag(double lag) {
+    public void setLag(String lag) {
         this.lag = lag;
     }
 
-    public double getLag() {
+    public String getLag() {
         return lag;
     }
 
-    public double getLan() {
+    public String getLan() {
         return lan;
     }
 
-    public void setLan(double lan) {
+    public void setLan(String lan) {
         this.lan = lan;
     }
 }
