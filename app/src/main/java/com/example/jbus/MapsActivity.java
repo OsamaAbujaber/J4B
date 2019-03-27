@@ -41,7 +41,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
 
-    private List<Driver> driversArray ;
+
 
 
     LocationManager locationManager;
