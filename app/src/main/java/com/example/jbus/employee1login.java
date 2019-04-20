@@ -50,7 +50,7 @@ String id;
         driversArray = new ArrayList<>();
         readDrivers();
         // Define ID's
-        t=  findViewById(R.id.vi);
+       // t=  findViewById(R.id.vi);
         T_id=  findViewById(R.id.t_id);
         T_pwd=  findViewById(R.id.t_pwd);
         Button Login= findViewById(R.id.login);
@@ -113,6 +113,14 @@ String id;
                 {
                     flag = true;
                     id=d1.getId();
+
+                    if(id_d.equals("a2222"))
+                    {
+                        i=new Intent(employee1login.this,Admin.class);
+                        startActivity(i);
+                        flag=false;
+
+                    }
                     break;
                 }
 
