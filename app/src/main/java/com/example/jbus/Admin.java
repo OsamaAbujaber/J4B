@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import android.support.v7.widget.Toolbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -15,6 +16,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
+    private Toolbar toolbar;
 
     EditText Lng,lat,id,pwd;
     Button Loc,Dri;
@@ -28,7 +30,9 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
 
 
 
-
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        Lng=findViewById(R.id.lng);
        lat=findViewById(R.id.lat);
        id=findViewById(R.id.DID);

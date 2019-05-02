@@ -8,18 +8,26 @@ public class Driver
     private String pass;
     private String lag;
     private String lan;
-
-
+    private String online;
 
     public Driver() {
 
     }
 
-    public Driver(String id, String pass, String lag, String lan) {
+    public Driver(String id, String pass, String lag, String lan,String online) {
         this.id = id;
         this.pass = pass;
         this.lag = lag;
         this.lan = lan;
+        this.online=online;
+    }
+
+    public void setOnline(String online) {
+        this.online = online;
+    }
+
+    public String getOnline() {
+        return online;
     }
 
     public String getId() {

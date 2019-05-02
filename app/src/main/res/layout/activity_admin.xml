@@ -11,8 +11,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
         android:layout_marginLeft="120dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:text="Add BusStop "
         android:textSize="25dp"
         android:textStyle="italic"
@@ -147,6 +148,19 @@
         android:text="More Details"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
+        />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:title="Adman"
+
+        app:titleTextColor="@android:color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         />
 
 </RelativeLayout>

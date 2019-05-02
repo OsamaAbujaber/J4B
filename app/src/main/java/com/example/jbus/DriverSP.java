@@ -37,8 +37,9 @@ public class DriverSP extends AppCompatActivity  {
 
     TextView feed;
     Switch swit;
-    LocationManager locationManager;
-    LocationListener locationListener;
+    String ID;
+    String online ;
+
     BroadcastReceiver broadcastReceiver;
 
     @Override
@@ -54,8 +55,28 @@ public class DriverSP extends AppCompatActivity  {
 
     String stringLag= String.valueOf(intent.getExtras().get("Lag"));
     String stringLan= String.valueOf(intent.getExtras().get("Lan"));
-    mReferranceDrivers.child("driver1").child("lag").setValue(stringLag);
-    mReferranceDrivers.child("driver1").child("lan").setValue(stringLan);
+     ID=getIntent().getStringExtra("ID");
+    mReferranceDrivers.child(ID).child("lag").setValue(stringLag);
+    mReferranceDrivers.child(ID).child("lan").setValue(stringLan);
+    mReferranceDrivers.child(ID).child("online").setValue(online);
+                    swit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(isChecked == true)
+                            {
+                                online="1";
+                                mReferranceDrivers.child(ID).child("online").setValue(online);
+
+                            }
+                            else
+                            {
+                                online="0";
+                                mReferranceDrivers.child(ID).child("online").setValue(online);
+                                Intent i =new Intent(getApplicationContext(),GPS_Service.class);
+                                stopService(i);
+                            }
+                        }
+                    });
 
                 }
             };
@@ -101,11 +122,14 @@ public class DriverSP extends AppCompatActivity  {
              public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                  if(isChecked == true)
                  {
+                        online="1";
                      Intent i =new Intent(getApplicationContext(),GPS_Service.class);
                      startService(i);
                  }
                  else
-                     { Intent i =new Intent(getApplicationContext(),GPS_Service.class);
+                     {
+                         online="0";
+                         Intent i =new Intent(getApplicationContext(),GPS_Service.class);
                          stopService(i);
                      }
              }

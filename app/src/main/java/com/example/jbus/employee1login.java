@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jbus.model.Driver;
+import com.example.jbus.model.admin;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,46 +29,80 @@ import java.util.List;
 public class employee1login extends AppCompatActivity implements View.OnClickListener {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
+    private DatabaseReference dmReferranceDrivers;
     private List<Driver> driversArray ;
-    Intent i;
-String id;
+    private List<admin> adminArray ;
 
+    Intent i;
+    String id;
     TextView t,T_id,T_pwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //To view it as full screen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_employee1login);
 
         //Define FireBase
         mDatabase= FirebaseDatabase.getInstance();
         mReferranceDrivers=mDatabase.getReference("driver");
         driversArray = new ArrayList<>();
-        readDrivers();
+
+        dmReferranceDrivers=mDatabase.getReference("admin");
+        adminArray = new ArrayList<>();
+
         // Define ID's
        // t=  findViewById(R.id.vi);
         T_id=  findViewById(R.id.t_id);
         T_pwd=  findViewById(R.id.t_pwd);
         Button Login= findViewById(R.id.login);
+        read();
 
         //Get All Users ID and Password From FireBase
         // Listener for login button
         Login.setOnClickListener(this);
     }
 
-    public void readDrivers()
+    public void read()
     {
+        dmReferranceDrivers.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                admin admin0=dataSnapshot.getValue(admin.class);
+                adminArray.add(admin0);
+                Toast.makeText(employee1login.this, adminArray.size()+"", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         mReferranceDrivers.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 Driver driver = dataSnapshot.getValue(Driver.class);
                 driversArray.add(driver);
+
             }
 
             @Override
@@ -95,7 +130,7 @@ String id;
 
     @Override
     public void onClick(View v) {
-
+        boolean flag =false;
         String id_d = T_id.getText().toString().trim();
         String pass_d=T_pwd.getText().toString().trim();
 
@@ -104,23 +139,36 @@ String id;
         {
             Toast.makeText(employee1login.this, "Fill All Fields", Toast.LENGTH_SHORT).show();
         }
+
+
         else
         {
-            boolean flag =false;
+            for (admin d1 : adminArray)
+            {
+                Toast.makeText(this, adminArray.get(0).getId(), Toast.LENGTH_SHORT).show();
+                if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
+                {
+
+                    i=new Intent(employee1login.this,DriverList.class);
+                   // i.putExtra("id", id_d);
+                    startActivity(i);
+
+
+                    break;
+
+                }
+            }
+
+
             for (Driver d1 : driversArray)
             {
                 if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
                 {
                     flag = true;
+
                     id=d1.getId();
 
-                    if(id_d.equals("a2222"))
-                    {
-                        i=new Intent(employee1login.this,Admin.class);
-                        startActivity(i);
-                        flag=false;
 
-                    }
                     break;
                 }
 
@@ -131,10 +179,10 @@ String id;
                  i.putExtra("ID",id);
                 startActivity(i);
             }
-            else
-            {
-                Toast.makeText(this, "wrong id or pass", Toast.LENGTH_SHORT).show();
-            }
+            else if(flag)
+
+                        Toast.makeText(this, "wrong id or pass", Toast.LENGTH_SHORT).show();
+
         }
     }
 
