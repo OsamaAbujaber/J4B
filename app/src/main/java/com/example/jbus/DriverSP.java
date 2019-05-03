@@ -37,9 +37,10 @@ public class DriverSP extends AppCompatActivity  {
 
     TextView feed;
     Switch swit;
-    String ID;
+   // String ID;
     String online ;
-
+    String temp;
+    int x;
     BroadcastReceiver broadcastReceiver;
 
     @Override
@@ -55,25 +56,28 @@ public class DriverSP extends AppCompatActivity  {
 
     String stringLag= String.valueOf(intent.getExtras().get("Lag"));
     String stringLan= String.valueOf(intent.getExtras().get("Lan"));
-     ID=getIntent().getStringExtra("ID");
-    mReferranceDrivers.child(ID).child("lag").setValue(stringLag);
-    mReferranceDrivers.child(ID).child("lan").setValue(stringLan);
-    mReferranceDrivers.child(ID).child("online").setValue(online);
+    // ID=getIntent().getStringExtra("ID");
+     temp=getIntent().getStringExtra("number");
+     x=Integer.parseInt(temp)+1;
+      mReferranceDrivers=mDatabase.getReference("driver");
+    mReferranceDrivers.child("driver"+x).child("lag").setValue(stringLag);
+    mReferranceDrivers.child("driver"+x).child("lan").setValue(stringLan);
+    mReferranceDrivers.child("driver"+x).child("online").setValue(online);
                     swit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             if(isChecked == true)
                             {
                                 online="1";
-                                mReferranceDrivers.child(ID).child("online").setValue(online);
+                                mReferranceDrivers.child("driver"+x).child("online").setValue(online);
 
                             }
                             else
                             {
                                 online="0";
-                                mReferranceDrivers.child(ID).child("online").setValue(online);
-                                mReferranceDrivers.child(ID).child("lag").setValue("0");
-                                mReferranceDrivers.child(ID).child("lan").setValue("0");
+                                mReferranceDrivers.child("driver"+x).child("online").setValue(online);
+                                mReferranceDrivers.child("driver"+x).child("lag").setValue("0");
+                                mReferranceDrivers.child("driver"+x).child("lan").setValue("0");
                                 Intent i =new Intent(getApplicationContext(),GPS_Service.class);
                                 stopService(i);
                             }
@@ -107,7 +111,7 @@ public class DriverSP extends AppCompatActivity  {
 
         //Define FireBase
         mDatabase= FirebaseDatabase.getInstance();
-        mReferranceDrivers=mDatabase.getReference("driver");
+
 
         swit = findViewById(R.id.swt);
         feed=findViewById(R.id.feedback);
@@ -133,8 +137,8 @@ public class DriverSP extends AppCompatActivity  {
                          online="0";
                          Intent i =new Intent(getApplicationContext(),GPS_Service.class);
                          stopService(i);
-                         mReferranceDrivers.child(ID).child("lag").setValue("");
-                         mReferranceDrivers.child(ID).child("lan").setValue("");
+                         mReferranceDrivers.child("driver"+x).child("lag").setValue("");
+                         mReferranceDrivers.child("driver"+x).child("lan").setValue("");
                      }
              }
          });

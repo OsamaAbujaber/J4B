@@ -32,6 +32,7 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
     private DatabaseReference dmReferranceDrivers;
     private List<Driver> driversArray ;
     private List<admin> adminArray ;
+    String num;
 
     Intent i;
     String id;
@@ -160,14 +161,15 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
             }
 
 
-            for (Driver d1 : driversArray)
+            for (int x=0;x<driversArray.size();x++)
             {
+                Driver d1=driversArray.get(x);
                 if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
                 {
                     flag = true;
 
                     id=d1.getId();
-
+                    num=x+"";
 
                     break;
                 }
@@ -177,6 +179,7 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
             {
                 i= new Intent(employee1login.this,DriverSP.class);
                  i.putExtra("ID",id);
+                 i.putExtra("number",num);
                 startActivity(i);
             }
             else if(flag)
