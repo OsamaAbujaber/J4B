@@ -37,6 +37,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
+    private DatabaseReference CounterRef;
     private DatabaseReference DeleteDriver;
     private Toolbar toolbar;
 
@@ -107,6 +108,12 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
                 mReferranceDrivers.child("driver"+driversNumber).child("lan").setValue("0");
                 mReferranceDrivers.child("driver"+driversNumber).child("online").setValue("0");
 
+                Driver D=new Driver(Did,Dpwd,"0","0","0");
+                driversArray.add(D);
+
+                CounterRef=mDatabase.getReference("Counter");
+                CounterRef.child("Numberofdrivers").setValue(driversNumber);
+
                 break;
 
             case R.id.AddLoc:
@@ -145,7 +152,11 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
 
                         DeleteDriver = mDatabase.getReference("driver").child("driver"+(i+1));
                         DeleteDriver.removeValue();
-
+                        driversNumber--;
+                        driversArray.remove(i);
+                        CounterRef=mDatabase.getReference("Counter");
+                        CounterRef.child("Numberofdrivers").setValue(driversArray.size());
+                        break;
 
                     }
 
