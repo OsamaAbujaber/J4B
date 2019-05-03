@@ -25,7 +25,7 @@
         android:id="@+id/lng"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="90dp"
         android:layout_centerHorizontal="true"
         android:hint="Longitude" />
 
@@ -33,16 +33,16 @@
         android:id="@+id/lat"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="140dp"
         android:layout_centerHorizontal="true"
         android:hint="Latitude" />
 
     <Button
         android:id="@+id/AddLoc"
-        android:layout_width="250dp"
+        android:layout_width="190dp"
         android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="170dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="200dp"
         android:background="@drawable/button"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
@@ -54,22 +54,21 @@
         />
 
 
-
-
-    <TextView
-        android:id="@+id/tVew"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:layout_marginLeft="130dp"
-        android:text="______"
-        android:textSize="25dp"
-        android:textStyle="italic"
-        android:fontFamily="casual"
-        android:textColor="@color/colorBackground"
+    <Button
+        android:id="@+id/Current"
+        android:layout_width="190dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/button"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="Get Current  "
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
         />
-
-
 
 
     <TextView
@@ -120,20 +119,6 @@
         />
 
 
-
-    <TextView
-        android:id="@+id/tVw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="470dp"
-        android:layout_marginLeft="130dp"
-        android:text="______"
-        android:textSize="25dp"
-        android:textStyle="italic"
-        android:fontFamily="casual"
-        android:textColor="@color/colorBackground"
-        />
-
     <Button
         android:id="@+id/More"
         android:layout_width="250dp"
@@ -155,7 +140,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        app:title="Adman"
+        app:title="Admin"
 
         app:titleTextColor="@android:color/white"
         android:minHeight="?attr/actionBarSize"

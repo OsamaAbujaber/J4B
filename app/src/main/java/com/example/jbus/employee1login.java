@@ -71,7 +71,7 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 admin admin0=dataSnapshot.getValue(admin.class);
                 adminArray.add(admin0);
-                Toast.makeText(employee1login.this, adminArray.size()+"", Toast.LENGTH_SHORT).show();
+
 
             }
 
@@ -149,8 +149,8 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
                 if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
                 {
 
-                    i=new Intent(employee1login.this,DriverList.class);
-                   // i.putExtra("id", id_d);
+                    i=new Intent(employee1login.this,Admin.class);
+                    i.putExtra("id",driversArray.size() );
                     startActivity(i);
 
 

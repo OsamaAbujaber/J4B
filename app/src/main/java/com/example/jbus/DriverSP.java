@@ -72,6 +72,8 @@ public class DriverSP extends AppCompatActivity  {
                             {
                                 online="0";
                                 mReferranceDrivers.child(ID).child("online").setValue(online);
+                                mReferranceDrivers.child(ID).child("lag").setValue("0");
+                                mReferranceDrivers.child(ID).child("lan").setValue("0");
                                 Intent i =new Intent(getApplicationContext(),GPS_Service.class);
                                 stopService(i);
                             }
@@ -131,6 +133,8 @@ public class DriverSP extends AppCompatActivity  {
                          online="0";
                          Intent i =new Intent(getApplicationContext(),GPS_Service.class);
                          stopService(i);
+                         mReferranceDrivers.child(ID).child("lag").setValue("");
+                         mReferranceDrivers.child(ID).child("lan").setValue("");
                      }
              }
          });
