@@ -142,7 +142,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
                     Driver d1 =driversArray.get(i);
                     if(d1.getId().equals(id.getText().toString())&&d1.getPass().equals(pwd.getText().toString()))
                     {
-                        //mDatabase = FirebaseDatabase.getInstance();
+
                         DeleteDriver = mDatabase.getReference("driver").child("driver"+(i+1));
                         DeleteDriver.removeValue();
 
