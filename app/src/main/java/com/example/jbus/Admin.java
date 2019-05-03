@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,23 +22,34 @@ import android.widget.Switch;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.example.jbus.model.Driver;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Admin extends AppCompatActivity implements View.OnClickListener {
 
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
+    private DatabaseReference DeleteDriver;
     private Toolbar toolbar;
 
     EditText Lng, lat, id, pwd;
-    Button Loc, Dri, current;
+    Button Loc, Dri, current,del;
     int driversNumber;
 
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
     String lattitude, longitude;
+
+
+    private List<Driver> driversArray ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +62,11 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
         String temp= getIntent().getExtras().get("id").toString();
         driversNumber= Integer.parseInt(temp);
 
+
+        mDatabase= FirebaseDatabase.getInstance();
+        DeleteDriver=mDatabase.getReference("driver");
+        driversArray = new ArrayList<>();
+        read();
 
 
 
@@ -63,12 +81,12 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
         Loc = findViewById(R.id.AddLoc);
         Dri = findViewById(R.id.AddDri);
         current = findViewById(R.id.Current);
-
+        del=findViewById(R.id.More);
 
         Dri.setOnClickListener(this);
         Loc.setOnClickListener(this);
         current.setOnClickListener(this);
-
+        del.setOnClickListener(this);
     }
 
     @Override
@@ -116,7 +134,66 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
                 }
                 break;
 
+
+            case R.id.More:
+
+                for (int i=0;i<driversArray.size();i++)
+                {
+                    Driver d1 =driversArray.get(i);
+                    if(d1.getId().equals(id.getText().toString())&&d1.getPass().equals(pwd.getText().toString()))
+                    {
+                        //mDatabase = FirebaseDatabase.getInstance();
+                        DeleteDriver = mDatabase.getReference("driver").child("driver"+(i+1));
+                        DeleteDriver.removeValue();
+
+
+                    }
+
+
+                }
+
+
+
+                break;
+
+
         }
+
+    }
+
+
+    public void read()
+    {
+
+        DeleteDriver.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                Driver driver = dataSnapshot.getValue(Driver.class);
+                driversArray.add(driver);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
