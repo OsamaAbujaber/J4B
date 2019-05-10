@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/a8"
     tools:context=".DriverSP">
 
     <Switch
@@ -14,18 +14,18 @@
         android:layout_marginLeft="110dp"
         android:layout_marginTop="150dp"
         android:text="     حالة العمل "
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         tools:layout_editor_absoluteX="143dp"
         tools:layout_editor_absoluteY="133dp" />
 
     <EditText
         android:id="@+id/feedback"
-        android:hint="                                      ارسال الملاحظات      "
-        android:textColorHint="@color/colorPrimaryDark"
         android:layout_width="408dp"
         android:layout_height="300dp"
         android:layout_marginTop="450dp"
         android:ems="10"
+        android:hint="                                      ارسال الملاحظات      "
         android:inputType="textPersonName"
-        />
+        android:textColorHint="@color/colorPrimaryDark" />
 
 </RelativeLayout>

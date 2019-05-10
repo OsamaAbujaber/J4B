@@ -17,7 +17,7 @@
         android:layout_centerHorizontal="true"
 
         android:layout_marginTop="400dp"
-        android:background="@drawable/b4"
+        android:background="@drawable/button"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
@@ -37,7 +37,7 @@
         android:layout_centerHorizontal="true"
 
         android:layout_marginTop="500dp"
-        android:background="@drawable/b4"
+        android:background="@drawable/button"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
