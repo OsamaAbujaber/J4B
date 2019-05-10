@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-       Button Student= (Button) findViewById(R.id.s1);
-       Button Employee= (Button) findViewById(R.id.employee);
+       Button Student=  findViewById(R.id.s1);
+       Button Employee=  findViewById(R.id.employee);
 
         Student.setOnClickListener(this);
         Employee.setOnClickListener(this);

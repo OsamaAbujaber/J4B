@@ -150,7 +150,7 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
                 if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
                 {
 
-                    i=new Intent(employee1login.this,Admin.class);
+                    i=new Intent(employee1login.this,DriverList.class);
                     i.putExtra("id",driversArray.size() );
                     startActivity(i);
 

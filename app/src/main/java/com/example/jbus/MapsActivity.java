@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
 import android.os.Bundle;
@@ -20,19 +21,24 @@ import android.widget.Toast;
 
 
 import com.example.jbus.model.Driver;
+import com.example.jbus.model.LocationStops;
+import com.example.jbus.model.admin;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
@@ -40,7 +46,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
-
+    private DatabaseReference LocmReferranceDrivers;
+    private List<LocationStops> LocationArray ;
+    private List<Driver> driversArray ;
 
 
 
@@ -61,7 +69,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         ActivityCompat.requestPermissions(MapsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
 
         mDatabase= FirebaseDatabase.getInstance();
-        mReferranceDrivers=mDatabase.getReference("driver").child("driver1");
+        mReferranceDrivers=mDatabase.getReference("driver");
+        driversArray = new ArrayList<>();
+        LocmReferranceDrivers=mDatabase.getReference("Location");
+        LocationArray = new ArrayList<>();
+
 
     }
 
@@ -100,36 +112,152 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         float zoomLevel = 16.0f; //This goes up to 21
         //     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(JUST, zoomLevel));
 
+LocmReferranceDrivers.addChildEventListener(new ChildEventListener() {
+    @Override
+    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        LocationStops locationStops=dataSnapshot.getValue(LocationStops.class);
+        LocationArray.add(locationStops);
+
+        for (LocationStops d1 : LocationArray)
+        {
+            LatLng stop = new LatLng(Double.parseDouble(d1.getLan()), (Double.parseDouble(d1.getLag())));
+            mMap.addMarker(new MarkerOptions().position(stop).icon(BitmapDescriptorFactory.fromResource(R.drawable.rsz_marker)));
 
 
-        mReferranceDrivers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                float zoomLevel = 16.0f;
-                Driver s = dataSnapshot.getValue(Driver.class);
-                LatLng JUST = new LatLng(32.4966, 35.9882);
-                LatLng stop1 = new LatLng(32.49631655, 35.9909521); //mall
-                LatLng stop2 = new LatLng(32.4971321, 35.9931763); //ph
-                LatLng stop3 = new LatLng(32.4945667, 35.9864574); //mojama3
-                LatLng driverMarker = new LatLng(Double.parseDouble(s.getLan()), (Double.parseDouble(s.getLag())));
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(driverMarker).title("driver 1"));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(driverMarker, zoomLevel));
-                mMap.addMarker(new MarkerOptions().position(JUST).title("Marker in JUST"));
-                mMap.addMarker(new MarkerOptions().position(stop1).icon(BitmapDescriptorFactory.fromResource(R.drawable.rsz_marker)));
-                mMap.addMarker(new MarkerOptions().position(stop2).icon(BitmapDescriptorFactory.fromResource(R.drawable.rsz_marker)));
-                mMap.addMarker(new MarkerOptions().position(stop3).icon(BitmapDescriptorFactory.fromResource(R.drawable.rsz_marker)));
+        }
 
 
+    }
+
+    @Override
+    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+        LocationStops locationStops=dataSnapshot.getValue(LocationStops.class);
+        LocationArray.add(locationStops);
+        for (LocationStops d1 : LocationArray)
+        {
+            LatLng stop = new LatLng(Double.parseDouble(d1.getLan()), (Double.parseDouble(d1.getLag())));
+            mMap.addMarker(new MarkerOptions().position(stop).icon(BitmapDescriptorFactory.fromResource(R.drawable.rsz_marker)));
+
+
+        }
+    }
+
+    @Override
+    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+    }
+});
+
+mReferranceDrivers.addChildEventListener(new ChildEventListener() {
+    @Override
+    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        Driver driver=dataSnapshot.getValue(Driver.class);
+        driversArray.add(driver);
+        Toast.makeText(MapsActivity.this, driversArray.get(0).getId(), Toast.LENGTH_SHORT).show();
+        for (Driver d1 : driversArray)
+        {
+            if(d1.getOnline().equals("1"))
+            {
+                LatLng stop = new LatLng(Double.parseDouble(d1.getLan()), (Double.parseDouble(d1.getLag())));
+                mMap.addMarker(new MarkerOptions().position(stop).icon(BitmapDescriptorFactory.fromResource(R.mipmap.flashing_arrow)));
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+
+        }
+
+
+    }
+
+    @Override
+    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        mMap.clear();
+        LatLng driverStop;
+        Driver driver=dataSnapshot.getValue(Driver.class);
+        driversArray.add(driver);
+
+        for (LocationStops d1 : LocationArray)
+        {
+            LatLng stop = new LatLng(Double.parseDouble(d1.getLan()), (Double.parseDouble(d1.getLag())));
+            mMap.addMarker(new MarkerOptions().position(stop).icon(BitmapDescriptorFactory.fromResource(R.drawable.rsz_marker)));
+
+
+        }
+
+        Toast.makeText(MapsActivity.this, driversArray.get(0).getId(), Toast.LENGTH_SHORT).show();
+
+
+        for (Driver d1 : driversArray)
+        {
+            if(d1.getOnline().equals("1"))
+            {
+
+                 driverStop = new LatLng(Double.parseDouble(d1.getLan()), (Double.parseDouble(d1.getLag())));
+                  mMap.addMarker(new MarkerOptions().position(driverStop).icon(BitmapDescriptorFactory.fromResource(R.mipmap.flashing_arrow)));
             }
-        });
+            if(d1.getOnline().equals("0"))
+            {
 
+                mMap.setIndoorEnabled(false);
+            }
+
+        }
+    }
+
+    @Override
+    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+    }
+});
+       // public final Marker addMarker (MarkerOptions options) ;
+
+
+
+//
+//        mReferranceDrivers.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                float zoomLevel = 16.0f;
+//                Driver s = dataSnapshot.getValue(Driver.class);
+//
+//                LatLng driverMarker = new LatLng(Double.parseDouble(s.getLan()), (Double.parseDouble(s.getLag())));
+//
+//                mMap.clear();
+//                mMap.addMarker(new MarkerOptions().position(driverMarker).title("driver 1"));
+//                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(driverMarker, zoomLevel));
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+        mMap.setMyLocationEnabled(true);
     }
 
 

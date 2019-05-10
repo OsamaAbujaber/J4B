@@ -8,36 +8,40 @@
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        android:layout_height="104dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
         app:layout_constraintEnd_toStartOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/b7" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="183dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="78dp"
-        android:layout_marginRight="78dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="18dp"
         android:text="TextView"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintEnd_toStartOf="@+id/imageView5"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="24dp"
-        android:layout_height="21dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        android:layout_width="78dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="@+id/textView3"
-        app:srcCompat="@mipmap/online" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/b2" />
 </android.support.constraint.ConstraintLayout>

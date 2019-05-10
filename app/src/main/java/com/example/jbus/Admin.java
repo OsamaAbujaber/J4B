@@ -60,8 +60,8 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
-        String temp= getIntent().getExtras().get("id").toString();
-        driversNumber= Integer.parseInt(temp);
+       // String temp= getIntent().getExtras().get("id").toString();
+       // driversNumber= Integer.parseInt(temp);
 
 
         mDatabase= FirebaseDatabase.getInstance();
