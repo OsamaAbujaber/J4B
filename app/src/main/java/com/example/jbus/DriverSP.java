@@ -16,6 +16,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,15 +33,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverSP extends AppCompatActivity  {
+public class DriverSP extends AppCompatActivity implements View.OnClickListener {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
+    private DatabaseReference FireButton;
 
     TextView feed;
     Switch swit;
    // String ID;
     String online ;
     String temp;
+    Button emr, help;
     int x;
     BroadcastReceiver broadcastReceiver;
 
@@ -109,12 +113,17 @@ public class DriverSP extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_sp);
 
+        emr=findViewById(R.id.EME);
+        help=findViewById(R.id.help);
+        emr.setOnClickListener(this);
+        help.setOnClickListener(this);
+
         //Define FireBase
         mDatabase= FirebaseDatabase.getInstance();
 
 
         swit = findViewById(R.id.swt);
-        feed=findViewById(R.id.feedback);
+       // feed=findViewById(R.id.feedback);
         
         if(!runtime_per())
             enable_buttons();
@@ -170,6 +179,31 @@ public class DriverSP extends AppCompatActivity  {
               runtime_per();
         }
         }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        temp=getIntent().getStringExtra("number");
+        x=Integer.parseInt(temp)+1;
+        switch(v.getId()){
+
+            case R.id.EME:
+                FireButton=mDatabase.getReference("Problem");
+                FireButton.child("EMR").setValue("Driver"+x+" Emergency Call ");
+                //Toast.makeText(this, x+"", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.help:
+                FireButton=mDatabase.getReference("Problem");
+                FireButton.child("HELP").setValue("Driver"+x+" Is Needing help");
+                //Toast.makeText(this, x+"", Toast.LENGTH_SHORT).show();
+                break;
+
+
+        }
+
+
 
     }
 }

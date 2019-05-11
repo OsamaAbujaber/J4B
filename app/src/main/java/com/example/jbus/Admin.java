@@ -1,16 +1,23 @@
 package com.example.jbus;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +45,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
     private DatabaseReference CounterRef;
+    private DatabaseReference Notfi;
     private DatabaseReference DeleteDriver;
     private Toolbar toolbar;
 
@@ -69,6 +77,36 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
         driversArray = new ArrayList<>();
         read();
 
+        mDatabase.getReference("Problem").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                String notifi= (String) dataSnapshot.getValue();
+                notibuild(notifi,s);
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -89,6 +127,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
         current.setOnClickListener(this);
         del.setOnClickListener(this);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -167,6 +206,21 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
 
                 break;
 
+            /*
+            case R.id.Adi:
+                NotificationCompat.Builder builder= new NotificationCompat.Builder(this);
+                builder.setSmallIcon(R.mipmap.ic_launcher_round);
+                builder.setContentTitle("Drivers ");
+                builder.setContentText("ffffffffffffffffffffffff");
+
+                Intent intent=new Intent(this,DriverList.class);
+                PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                builder.setContentIntent(pendingIntent);
+
+                NotificationManager notificationManager= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                notificationManager.notify(0,builder.build());
+                Toast.makeText(this, "Fuck you ", Toast.LENGTH_SHORT).show();
+                break;*/
 
         }
 
@@ -281,6 +335,23 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
                 });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+
+
+    public void notibuild(String text,String s){
+        if(!text.equals("0")) {
+            int a = text.indexOf(" ");
+            String z = text.substring(0, a);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(z);
+            builder.setMessage(text);
+            final AlertDialog alert = builder.create();
+            alert.show();
+
+            Notfi = mDatabase.getReference("Problem");
+            Notfi.child("EMR").setValue("0");
+            Notfi.child("HELP").setValue("0");
+        }
     }
 
 }
