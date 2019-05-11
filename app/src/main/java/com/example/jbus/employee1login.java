@@ -153,7 +153,7 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
         {
             for (admin d1 : adminArray)
             {
-                Toast.makeText(this, adminArray.get(0).getId(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, adminArray.get(0).getId(), Toast.LENGTH_SHORT).show();
                 if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
                 {
 

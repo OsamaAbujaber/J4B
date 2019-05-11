@@ -133,28 +133,34 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.AddDri:
-                String Did, Dpwd;
-                mDatabase = FirebaseDatabase.getInstance();
-                mReferranceDrivers = mDatabase.getReference("driver");
+                if(!(id.getText().toString().isEmpty() || pwd.getText().toString().isEmpty())) {
+                    String Did, Dpwd;
+                    mDatabase = FirebaseDatabase.getInstance();
+                    mReferranceDrivers = mDatabase.getReference("driver");
 
-                Did = id.getText().toString();
-                Dpwd = pwd.getText().toString();
-                driversNumber+=1;
-                mReferranceDrivers.child("driver"+driversNumber).child("id").setValue(Did);
-                mReferranceDrivers.child("driver"+driversNumber).child("pass").setValue(Dpwd);
-                mReferranceDrivers.child("driver"+driversNumber).child("lag").setValue("0");
-                mReferranceDrivers.child("driver"+driversNumber).child("lan").setValue("0");
-                mReferranceDrivers.child("driver"+driversNumber).child("online").setValue("0");
+                    Did = id.getText().toString();
+                    Dpwd = pwd.getText().toString();
+                    driversNumber += 1;
+                    mReferranceDrivers.child("driver" + driversNumber).child("id").setValue(Did);
+                    mReferranceDrivers.child("driver" + driversNumber).child("pass").setValue(Dpwd);
+                    mReferranceDrivers.child("driver" + driversNumber).child("lag").setValue("0");
+                    mReferranceDrivers.child("driver" + driversNumber).child("lan").setValue("0");
+                    mReferranceDrivers.child("driver" + driversNumber).child("online").setValue("0");
 
-                Driver D=new Driver(Did,Dpwd,"0","0","0");
-                driversArray.add(D);
+                    Driver D = new Driver(Did, Dpwd, "0", "0", "0");
+                    driversArray.add(D);
 
-                CounterRef=mDatabase.getReference("Counter");
-                CounterRef.child("Numberofdrivers").setValue(driversNumber);
+                    CounterRef = mDatabase.getReference("Counter");
+                    CounterRef.child("Numberofdrivers").setValue(driversNumber);
+                }
+                else {
+                    Toast.makeText(this, "Please Fill All ", Toast.LENGTH_SHORT).show();
+                }
 
                 break;
 
             case R.id.AddLoc:
+                if (!(Lng.getText().toString().isEmpty() || lat.getText().toString().isEmpty())){
                 String l1, l2;
                 mDatabase = FirebaseDatabase.getInstance();
                 mReferranceDrivers = mDatabase.getReference("Locations");
@@ -162,6 +168,13 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
                 l2 = lat.getText().toString();
                 mReferranceDrivers.child("AddedLocation").child("lag").setValue(l1);
                 mReferranceDrivers.child("AddedLocation").child("lan").setValue(l2);
+                }
+                else {
+                    Toast.makeText(this, "Please Fill All ", Toast.LENGTH_SHORT).show();
+
+                }
+
+
                 break;
 
 
@@ -181,29 +194,31 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
 
 
             case R.id.More:
+                if (!(Lng.getText().toString().isEmpty() || lat.getText().toString().isEmpty())){
 
-                for (int i=0;i<driversArray.size();i++)
+
+                    for (int i=0;i<driversArray.size();i++)
                 {
                     Driver d1 =driversArray.get(i);
-                    if(d1.getId().equals(id.getText().toString())&&d1.getPass().equals(pwd.getText().toString()))
-                    {
+                    if(d1.getId().equals(id.getText().toString())&&d1.getPass().equals(pwd.getText().toString())) {
 
-                        DeleteDriver = mDatabase.getReference("driver").child("driver"+(i+1));
+                        DeleteDriver = mDatabase.getReference("driver").child("driver" + (i + 1));
                         DeleteDriver.removeValue();
                         driversNumber--;
                         driversArray.remove(i);
-                        CounterRef=mDatabase.getReference("Counter");
+                        CounterRef = mDatabase.getReference("Counter");
                         CounterRef.child("Numberofdrivers").setValue(driversArray.size());
-                        break;
-
                     }
 
+                    break;
+
+                    }
+                }
+                else {
+                    Toast.makeText(this, "Please Fill All ", Toast.LENGTH_SHORT).show();
 
                 }
-
-
-
-                break;
+                   break;
 
             /*
             case R.id.Adi:

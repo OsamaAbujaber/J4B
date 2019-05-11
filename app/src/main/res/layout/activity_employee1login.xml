@@ -25,6 +25,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="400dp"
         android:hint="Enter Password "
+        android:inputType="textPassword"
+        android:textColor="@android:color/background_light"
+        android:textColorHighlight="@android:color/background_light"
         android:textColorHint="@android:color/background_light" />
 
     <Button
@@ -51,5 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="400dp"
         app:srcCompat="@drawable/a1" />
+
+
 
 </RelativeLayout>
