@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.google.firebase.FirebaseApp;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     FirebaseDatabase database;
     DatabaseReference myRef;
+    Animation animation;
 
     DatabaseReference databaseEMP;
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
        Button Student=  findViewById(R.id.s1);
        Button Employee=  findViewById(R.id.employee);
+        animation= AnimationUtils.loadAnimation(MainActivity.this,R.anim.frombottom);
+        Student.setAnimation(animation);
+        Employee.setAnimation(animation);
 
         Student.setOnClickListener(this);
         Employee.setOnClickListener(this);

@@ -123,7 +123,7 @@ public class DriverSP extends AppCompatActivity implements View.OnClickListener 
 
 
         swit = findViewById(R.id.swt);
-       // feed=findViewById(R.id.feedback);
+
         
         if(!runtime_per())
             enable_buttons();
@@ -191,13 +191,13 @@ public class DriverSP extends AppCompatActivity implements View.OnClickListener 
             case R.id.EME:
                 FireButton=mDatabase.getReference("Problem");
                 FireButton.child("EMR").setValue("Driver"+x+" Emergency Call ");
-                //Toast.makeText(this, x+"", Toast.LENGTH_SHORT).show();
+
                 break;
 
             case R.id.help:
                 FireButton=mDatabase.getReference("Problem");
                 FireButton.child("HELP").setValue("Driver"+x+" Is Needing help");
-                //Toast.makeText(this, x+"", Toast.LENGTH_SHORT).show();
+
                 break;
 
 

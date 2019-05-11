@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +38,8 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
 
     Intent i;
     String id;
-    TextView t,T_id,T_pwd;
+    TextView T_id,T_pwd;
+    Animation animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,12 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_employee1login);
+
+
+        animation= AnimationUtils.loadAnimation(this,R.anim.frombottom);
+
+        Button Login= findViewById(R.id.login);
+        Login.setAnimation(animation);
 
         //Define FireBase
         mDatabase= FirebaseDatabase.getInstance();
@@ -53,11 +62,10 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
         dmReferranceDrivers=mDatabase.getReference("admin");
         adminArray = new ArrayList<>();
 
-        // Define ID's
-       // t=  findViewById(R.id.vi);
+
+
         T_id=  findViewById(R.id.t_id);
         T_pwd=  findViewById(R.id.t_pwd);
-        Button Login= findViewById(R.id.login);
         read();
 
         //Get All Users ID and Password From FireBase
@@ -141,7 +149,6 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(employee1login.this, "Fill All Fields", Toast.LENGTH_SHORT).show();
         }
 
-
         else
         {
             for (admin d1 : adminArray)
@@ -153,30 +160,20 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
                     i=new Intent(employee1login.this,DriverList.class);
                     i.putExtra("id",driversArray.size() );
                     startActivity(i);
-
-
                     break;
-
-                }
-            }
-
-
+                }   }
             for (int x=0;x<driversArray.size();x++)
             {
                 Driver d1=driversArray.get(x);
                 if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
                 {
                     flag = true;
-
                     id=d1.getId();
                     num=x+"";
-
                     break;
                 }
-
             }
-            if(flag)
-            {
+            if(flag){
                 i= new Intent(employee1login.this,DriverSP.class);
                  i.putExtra("ID",id);
                  i.putExtra("number",num);

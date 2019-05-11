@@ -129,6 +129,19 @@ LocmReferranceDrivers.addChildEventListener(new ChildEventListener() {
 
     }
 
+    /*          Sho3'l sara
+    *
+    *
+    *
+    *
+    *
+    * */
+
+
+
+
+
+
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -213,6 +226,52 @@ mReferranceDrivers.addChildEventListener(new ChildEventListener() {
             }
 
         }
+
+
+
+        /* . ................ SHO3'L SARA .........................
+
+
+                 @Override
+                    public View getInfoWindow(Marker marker) {
+
+                       // LayoutInflater inflater = getLayoutInflater();
+                        //View myLayout = inflater.inflate(R.layout.info_window,null);
+
+                       // View view=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE).Inflate(Resources.getSystem().getLayout(R.layout.))
+                                return null;
+                    }
+                    Context context=getApplicationContext();
+                    @Override
+                    public View getInfoContents(Marker marker) {
+
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View v =  inflater.inflate(R.layout.info_window, null);
+
+                        LatLng latLng = marker.getPosition();
+                        ImageView bmarker=(ImageView)v.findViewById(R.id.bmarker);
+                        bmarker.setImageResource(R.drawable.blue_marker);
+                        ImageView gmarker=(ImageView)v.findViewById(R.id.gmarker);
+                        gmarker.setImageResource(R.drawable.green_marker);
+
+                        TextView blue = (TextView) v.findViewById(R.id.blue);
+                        TextView green = (TextView) v.findViewById(R.id.green);
+
+                        String m="";
+                        blue.setText(" ");
+                        int d=SphericalUtil.computeDistanceBetween(latLng, driverMarker)/40;
+                        if (d>1)m=" mins";else m=" min";
+                        green.setText(d+m);
+                        //green.setText(String.valueOf((int)(SphericalUtil.computeDistanceBetween(latLng, driverMarker)/40)));
+                        return v;
+
+                    }
+                });
+                 . ................ SHO3'L SARA .........................
+
+
+
+        * */
     }
 
     @Override
