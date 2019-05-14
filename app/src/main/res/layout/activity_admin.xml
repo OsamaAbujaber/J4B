@@ -104,34 +104,31 @@
 
     <Button
         android:id="@+id/AddDri"
-        android:layout_width="190dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="500dp"
-        android:background="@drawable/button"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="325dp"
+        android:layout_marginTop="575dp"
+        android:background="@android:drawable/ic_input_add"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
         android:shadowRadius="5"
-        android:text="Add Driver"
         android:textColor="#FFFFFF"
         android:textSize="15sp" />
 
 
     <Button
         android:id="@+id/More"
-        android:layout_width="190dp"
+        android:layout_width="55dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="0dp"
+        android:layout_marginLeft="325dp"
         android:layout_marginTop="500dp"
-        android:background="@drawable/button"
+        android:layout_marginRight="0dp"
+        android:background="@drawable/b9"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="Delete Details"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp" />
+        />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

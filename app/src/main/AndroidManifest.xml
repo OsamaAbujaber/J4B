@@ -17,9 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DriverList"></activity>
-        <activity android:name=".Admin"
-            android:parentActivityName=".DriverList"/>
+        <activity android:name=".ListDriver"></activity>
+        <activity android:name=".DriverList" />
+        <activity
+            android:name=".Admin"
+            android:parentActivityName=".DriverList" />
         <activity android:name=".DriverSP" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

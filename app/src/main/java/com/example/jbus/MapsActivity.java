@@ -39,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
@@ -49,7 +50,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private DatabaseReference LocmReferranceDrivers;
     private List<LocationStops> LocationArray ;
     private List<Driver> driversArray ;
-
+    private HashMap<Driver ,Marker> hashMapMarker;
+    private   Marker marker;
 
 
     LocationManager locationManager;
@@ -67,7 +69,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         ActivityCompat.requestPermissions(MapsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-
+        hashMapMarker = new HashMap<>();
         mDatabase= FirebaseDatabase.getInstance();
         mReferranceDrivers=mDatabase.getReference("driver");
         driversArray = new ArrayList<>();
@@ -88,7 +90,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
 
@@ -183,7 +185,9 @@ mReferranceDrivers.addChildEventListener(new ChildEventListener() {
             if(d1.getOnline().equals("1"))
             {
                 LatLng stop = new LatLng(Double.parseDouble(d1.getLan()), (Double.parseDouble(d1.getLag())));
-                mMap.addMarker(new MarkerOptions().position(stop).icon(BitmapDescriptorFactory.fromResource(R.mipmap.flashing_arrow)));
+                marker = mMap.addMarker(new MarkerOptions().position(stop).icon(BitmapDescriptorFactory.fromResource(R.mipmap.flashing_arrow)));
+
+                hashMapMarker.put(d1,marker);
             }
 
 
@@ -195,35 +199,35 @@ mReferranceDrivers.addChildEventListener(new ChildEventListener() {
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        mMap.clear();
+        marker.remove();
         LatLng driverStop;
         Driver driver=dataSnapshot.getValue(Driver.class);
         driversArray.add(driver);
-
-        for (LocationStops d1 : LocationArray)
-        {
-            LatLng stop = new LatLng(Double.parseDouble(d1.getLan()), (Double.parseDouble(d1.getLag())));
-            mMap.addMarker(new MarkerOptions().position(stop).icon(BitmapDescriptorFactory.fromResource(R.drawable.rsz_marker)));
-
-
-        }
-
         Toast.makeText(MapsActivity.this, driversArray.get(0).getId(), Toast.LENGTH_SHORT).show();
-
 
         for (Driver d1 : driversArray)
         {
+
             if(d1.getOnline().equals("1"))
             {
 
                  driverStop = new LatLng(Double.parseDouble(d1.getLan()), (Double.parseDouble(d1.getLag())));
-                  mMap.addMarker(new MarkerOptions().position(driverStop).icon(BitmapDescriptorFactory.fromResource(R.mipmap.flashing_arrow)));
-            }
-            if(d1.getOnline().equals("0"))
-            {
+//                  mMap.addMarker(new MarkerOptions().position(driverStop).icon(BitmapDescriptorFactory.fromResource(R.mipmap.flashing_arrow)));
 
-                mMap.setIndoorEnabled(false);
+
+
+                 marker = mMap.addMarker(new MarkerOptions().position(driverStop).icon(BitmapDescriptorFactory.fromResource(R.mipmap.flashing_arrow)));
+
+                hashMapMarker.put(d1,marker);
+
+
             }
+//            if(d1.getOnline().equals("0"))
+//            {
+//                Marker marker = hashMapMarker.get(d1);
+//                marker.remove();
+//                hashMapMarker.remove(d1);
+//            }
 
         }
 

@@ -36,8 +36,10 @@ public class DriverList extends AppCompatActivity implements View.OnClickListene
     ListView ListOfDriver;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferranceDrivers;
+    private DatabaseReference DeleteDriver;
+    private DatabaseReference CounterRef;
     private List<Driver> driversArray ;
-    BroadcastReceiver broadcastReceiver;
+    int driversNumber;
     ImageView imageView1;
     ImageView add;
 
@@ -54,8 +56,10 @@ public class DriverList extends AppCompatActivity implements View.OnClickListene
         add=findViewById(R.id.add);
         customAdab customAdab =new customAdab();
         ListOfDriver.setAdapter(customAdab);
-
+        DeleteDriver=mDatabase.getReference("driver");
         add.setOnClickListener(this);
+
+
 
 
 
@@ -89,9 +93,33 @@ public class DriverList extends AppCompatActivity implements View.OnClickListene
         public View getView(int i, View view, ViewGroup parent) {
             view = getLayoutInflater().inflate(R.layout.customdriver, null);
             ImageView imageView = view.findViewById(R.id.imageView4);
-            TextView textView1 = view.findViewById(R.id.textView3);
+            final TextView textView1 = view.findViewById(R.id.textView3);
             imageView1 = view.findViewById(R.id.imageView5);
             textView1.setText(driversArray.get(i).getId());
+            ImageView imageView2=view.findViewById(R.id.imageView2);
+
+            imageView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int i=0;i<driversArray.size();i++)
+                    {
+                        Driver d1 =driversArray.get(i);
+
+
+
+                            DeleteDriver = mDatabase.getReference("driver").child(textView1.getText().toString());
+                            DeleteDriver.removeValue();
+                            driversNumber--;
+                            driversArray.remove(i);
+                            CounterRef=mDatabase.getReference("Counter");
+                            CounterRef.child("Numberofdrivers").setValue(driversArray.size());
+                            break;
+
+
+
+
+                    }                }
+            });
 
             return view;
         }

@@ -157,8 +157,9 @@ public class employee1login extends AppCompatActivity implements View.OnClickLis
                 if(d1.getId().equals(id_d)&&d1.getPass().equals(pass_d))
                 {
 
-                    i=new Intent(employee1login.this,DriverList.class);
+                    i=new Intent(employee1login.this,ListDriver.class);
                     i.putExtra("id",driversArray.size() );
+                    i.putExtra("number",num);
                     startActivity(i);
                     break;
                 }   }
